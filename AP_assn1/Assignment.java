@@ -276,7 +276,7 @@ class Assignment {
                                         Citizen.citizens.get(ind).status="FULLY VACCINATED";
                                     }
                                     else Citizen.citizens.get(ind).status="PARTIALLY VACCINATED";
-                                    Citizen.citizens.get(ind).due=Citizen.citizens.get(ind).due+Slot.slot.get(n).gap;
+                                    Citizen.citizens.get(ind).due=Slot.slot.get(n).day+Slot.slot.get(n).gap;
                                     Citizen.citizens.get(ind).vac=Slot.slot.get(n).vac;
                                     Slot.slot.get(n).quantity--;
                                 }
@@ -315,7 +315,13 @@ class Assignment {
                                     Citizen.citizens.get(ind).due=1+Slot.slot.get(n).gap;
                                     Citizen.citizens.get(ind).vac=Slot.slot.get(n).vac;
                                 }
-                                else Citizen.citizens.get(ind).status="PARTIALLY VACCINATED";
+                                else {
+                                    Citizen.citizens.get(ind).status="PARTIALLY VACCINATED";
+                                    Citizen.citizens.get(ind).dose=1;
+                                    Citizen.citizens.get(ind).nod=Slot.slot.get(n).nod;
+                                    Citizen.citizens.get(ind).due=1+Slot.slot.get(n).gap;
+                                    Citizen.citizens.get(ind).vac=Slot.slot.get(n).vac;
+                            }
                                 Slot.slot.get(n).quantity--;
                             }
                         }
@@ -341,7 +347,7 @@ class Assignment {
                                 }
                                 else {
                                     Citizen.citizens.get(ind).status="PARTIALLY VACCINATED";
-                                    Citizen.citizens.get(ind).due=Citizen.citizens.get(ind).due+Slot.slot.get(n).gap;
+                                    Citizen.citizens.get(ind).due=Slot.slot.get(n).day+Slot.slot.get(n).gap;
                                     Citizen.citizens.get(ind).vac=Slot.slot.get(n).vac;
                                 }
                                 Slot.slot.get(n).quantity--;
