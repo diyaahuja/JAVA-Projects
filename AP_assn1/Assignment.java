@@ -5,10 +5,6 @@ class Vaccine {
     String name;
     int no_of_doses;
     int gap;
-    Vaccine() {
-        no_of_doses=0;
-        gap=0;
-    }
     Vaccine(String s,int n,int g) {
         vaccines.add(this);
         name=s;
@@ -49,7 +45,7 @@ class Citizen {
     int due;
     String vac;
     Citizen(String n,int a,String i) {
-        citizens.add(this);
+        if(a>18) citizens.add(this);
         name=n;
         age=a;
         id=i;
@@ -89,7 +85,7 @@ class Slot {
     }
 }
 
-class assignment {
+class Assignment {
     public static void main(String[] args) throws IOException {
         Reader.init(System.in);
         System.out.println("CoWin Portal initialised...");
@@ -141,10 +137,19 @@ class assignment {
                 n=Reader.nextInt();
                 System.out.print("Unique ID:");
                 i=Reader.nextLine();
-                if(n<18) System.out.println("Only above 18 are allowed");
-                else {
-                    Citizen c=new Citizen(s,n,i);
-                    c.display_citizen();
+                int flag=0;
+                for(Citizen y:Citizen.citizens) {
+                    if(y.id.equals(i)) {
+                        flag=1;
+                        System.out.println("Entered ID already registered!");
+                    }
+                }
+                if(flag==0) {
+                    if(n<18) System.out.println("Only above 18 are allowed");
+                    else {
+                        Citizen c=new Citizen(s,n,i);
+                        c.display_citizen();
+                    }
                 }
             }
             else if(o==4) {
@@ -255,7 +260,7 @@ class assignment {
                             }
                             else if(Citizen.citizens.get(ind).status.equals("PARTIALLY VACCINATED")) {
                                 for(Slot y:Slot.slot) {
-                                    if(y.hospital==n && y.quantity!=0 && y.day==Citizen.citizens.get(ind).due) {
+                                    if(y.hospital==n && y.vac.equals(Citizen.citizens.get(ind).vac) && y.quantity!=0 && y.day>=Citizen.citizens.get(ind).due) {
                                         flag_=1;
                                         System.out.println(n1+"-> Day"+y.day+" Available Qty:"+y.quantity+" Vaccine:"+y.vac);
                                     }
@@ -319,7 +324,7 @@ class assignment {
                         }
                         else if(Citizen.citizens.get(ind).status.equals("PARTIALLY VACCINATED")) {
                             for(Slot y:Slot.slot) {
-                                if(y.hospital==n && y.vac.equals(v) && y.quantity!=0 && y.day==Citizen.citizens.get(ind).due) {
+                                if(y.hospital==n && y.vac.equals(v) && y.vac.equals(Citizen.citizens.get(ind).vac) && y.quantity!=0 && y.day>=Citizen.citizens.get(ind).due) {
                                     flag_=1;
                                     System.out.println(n1+"-> Day"+y.day+" Available Qty:"+y.quantity+" Vaccine:"+y.vac);
                                 }
@@ -348,17 +353,22 @@ class assignment {
             else if(o==6) {
                 System.out.print("Enter Hospital ID:");
                 n=Reader.nextInt();
+                int flag=0;
                 for(Slot y:Slot.slot) {
                     if(y.id==n && y.quantity!=0) {
+                        flag=1;
                         System.out.println("Day: "+y.day+" Vaccine: "+y.vac+" Available Quantity: "+y.quantity);
                     }
                 }
+                if(flag==0) System.out.println("No slots available on this hospital ID!");
             }
             else if(o==7) {
                 System.out.print("Enter patient ID:");
                 i=Reader.nextLine();
+                int flag=0;
                 for(Citizen y:Citizen.citizens) {
                     if(y.id.equals(i)) {
+                        flag=1;
                         if(y.status.equals("REGISTERED")) System.out.println("Citizen REGISTERED");
                         else if(y.status.equals("FULLY VACCINATED")) {
                             System.out.println(y.status);
@@ -373,7 +383,9 @@ class assignment {
                         }
                     }
                 }
+                if(flag==0) System.out.println("No citizen is registered on this ID!");
             }
+            else if(o>8) System.out.println("Invalid option!");
         } while(o!=8);
     }
 }
