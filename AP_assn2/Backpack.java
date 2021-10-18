@@ -27,47 +27,47 @@ class Submission {
         students=new ArrayList<>();
         instructors=new ArrayList<>();
     }
-    void add_submission(String filename, Student stud) {
+    public void add_submission(String filename, Student stud) {
         names.add(filename);
         grades.add(-1);
         students.add(stud);
         instructors.add(null);
     }
-    boolean submitted(Student S) {
+    public boolean submitted(Student S) {
         for(Student y: this.students) {
             if(y==S) return true;
         }
         return false;
     }
-    ArrayList<Student> getstudents() {return this.students;}
-    ArrayList<Integer> getgrade() {return this.grades;}
-    int graded(Student S) {
+    public ArrayList<Student> getstudents() {return this.students;}
+    public ArrayList<Integer> getgrade() {return this.grades;}
+    public int graded(Student S) {
         int t=0;
         for(Student y: this.students) {
             if(y==S) {return this.grades.get(t);}
         }
         return -1;
     }
-    String name(Student S) {
+    public String name(Student S) {
         int t=0;
         for(Student y: this.students) {
             if(y==S) {return this.names.get(t);}
         }
         return null;
     }
-    String ins_name(Student S) {
+    public String ins_name(Student S) {
         int t=0;
         for(Student y: this.students) {
             if(y==S) {return this.instructors.get(t).getname();}
         }
         return null;
     }
-    ArrayList<String> getnames() {return this.names;}
-    ArrayList<Instructor> getinstructors() {return this.instructors;}
-    String get_stud_sub(int id) {return this.names.get(id);}
-    void setgrades(ArrayList<Integer> g) {this.grades=g;}
-    void setinstructor(ArrayList<Instructor> ins) {this.instructors=ins;}
-    boolean ungraded() {
+    public ArrayList<String> getnames() {return this.names;}
+    public ArrayList<Instructor> getinstructors() {return this.instructors;}
+    public String get_stud_sub(int id) {return this.names.get(id);}
+    public void setgrades(ArrayList<Integer> g) {this.grades=g;}
+    public void setinstructor(ArrayList<Instructor> ins) {this.instructors=ins;}
+    public boolean ungraded() {
         for(Integer y: this.grades) {
             if(y==-1) return true;
         }
@@ -80,13 +80,13 @@ class Comment {
     private User U;
     private String comment;
     private Date date;
-    void add_comment(String c, User u) {
+    public void add_comment(String c, User u) {
         comments.add(this);
         U=u;
         comment=c;
         date=java.util.Calendar.getInstance().getTime();
     }
-    static void print_comments() {
+    public static void print_comments() {
         for(Comment y: Comment.comments) {
             System.out.println(y.comment+" -"+y.U.getname());
             System.out.println(y.date);
@@ -102,7 +102,7 @@ class Assignment implements Assessment{
     private Instructor instructor;
     private String status;
     private Submission S;
-    void add_assignment (String p,int m,Instructor I) {
+    public void add_assignment (String p,int m,Instructor I) {
         assignments.add(this);
         problem=p;
         marks=m;
@@ -110,7 +110,7 @@ class Assignment implements Assessment{
         status="open";
         S=new Submission();
     }
-    static void view(int k) {
+    public static void view(int k) {
         for(Assignment y: Assignment.assignments) {
             System.out.println("ID: "+k+" Assignment: "+y.problem+" Max Marks: "+y.marks);
             System.out.println();
@@ -134,7 +134,7 @@ class Assignment implements Assessment{
     @Override
     public int getmarks() {return this.marks;}
     static int getnumberofass() {return assignments.size();}
-    static ArrayList<Assignment> getassignments() {return assignments;}
+    public static ArrayList<Assignment> getassignments() {return assignments;}
 }
 
 class Quiz implements Assessment{
@@ -144,14 +144,14 @@ class Quiz implements Assessment{
     private Instructor instructor;
     private String status;
     private Submission S;
-    void add_quiz (String q,Instructor I) {
+    public void add_quiz (String q,Instructor I) {
         quizzes.add(this);
         ques=q;
         marks=1;
         status="open";
         S=new Submission();
     }
-    static void view(int k) {
+    public static void view(int k) {
         for(Quiz y: Quiz.quizzes) {
             System.out.println("ID: "+k+" Assignment: "+y.ques);
             System.out.println();
@@ -184,7 +184,7 @@ class LectureSlide {
     private String[] content;
     private Instructor instructor;
     private Date dou;
-    void add_slide(String t,int n, String[] c,Instructor I) {
+    public void add_slide(String t,int n, String[] c,Instructor I) {
         slides.add(this);
         topic=t;
         number=n;
@@ -192,7 +192,7 @@ class LectureSlide {
         instructor=I;
         dou=java.util.Calendar.getInstance().getTime();
     }
-    static void view() {
+    public static void view() {
         for(LectureSlide y:LectureSlide.slides) {
             System.out.println("Title: "+y.topic);
             for(int z=0;z<y.number;z++) {
@@ -204,7 +204,7 @@ class LectureSlide {
             System.out.println();
         }
     }
-    static int getlecsize() {return slides.size();}
+    public static int getlecsize() {return slides.size();}
 }
 
 class LectureVideo {
@@ -213,14 +213,14 @@ class LectureVideo {
     private String filename;
     private Date dou;
     private Instructor instructor;
-    void add_video(String t,String f,Instructor I) {
+    public void add_video(String t,String f,Instructor I) {
         videos.add(this);
         topic=t;
         filename=f;
         dou=java.util.Calendar.getInstance().getTime();
         instructor=I;
     }
-    static void view() {
+    public static void view() {
         for(LectureVideo y:LectureVideo.videos) {
             System.out.println("Title of video: "+y.topic);
             System.out.println("Video File: "+y.filename);
@@ -229,7 +229,7 @@ class LectureVideo {
             System.out.println();
         }
     }
-    static int getlecsize() {return videos.size();}
+    public static int getlecsize() {return videos.size();}
 }
 
 class Instructor implements User{
@@ -528,24 +528,19 @@ public class Backpack{
                         ArrayList<Assessment> graded_assessments=new ArrayList<>();
                         ArrayList<Assessment> ungraded_assessments=new ArrayList<>();
                         for(Assignment y: Assignment.getassignments()) {
-                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
                                 if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) graded_assessments.add(y);
                                 else if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) ungraded_assessments.add(y);
-                                //t++;
                             }
                         }
                         for(Quiz y: Quiz.getquizzes()) {
-                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
                                 if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) graded_assessments.add(y);
                                 else if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) ungraded_assessments.add(y);
-                                //t++;
                             }
                         }
                         System.out.println("Graded Submissions:");
                         for(Assessment y: graded_assessments) {
-                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
                                 if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) {
                                     System.out.println("Submission: "+y.getsub().name(students.get(i)));
@@ -553,19 +548,16 @@ public class Backpack{
                                     System.out.println("Graded by: "+y.getsub().ins_name(students.get(i)));
                                     System.out.println();
                                 }
-                                //t++;
                             }
                         }
                         System.out.println("--------------------------");
                         System.out.println("Ungraded Submissions:");
                         for(Assessment y: ungraded_assessments) {
-                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
                                 if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) {
                                     System.out.println("Submission: "+y.getsub().name(students.get(i)));
                                     System.out.println();
                                 }
-                                //t++;
                             }
                         }
                     }
