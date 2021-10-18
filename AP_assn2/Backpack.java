@@ -41,6 +41,27 @@ class Submission {
     }
     ArrayList<Student> getstudents() {return this.students;}
     ArrayList<Integer> getgrade() {return this.grades;}
+    int graded(Student S) {
+        int t=0;
+        for(Student y: this.students) {
+            if(y==S) {return this.grades.get(t);}
+        }
+        return -1;
+    }
+    String name(Student S) {
+        int t=0;
+        for(Student y: this.students) {
+            if(y==S) {return this.names.get(t);}
+        }
+        return null;
+    }
+    String ins_name(Student S) {
+        int t=0;
+        for(Student y: this.students) {
+            if(y==S) {return this.instructors.get(t).getname();}
+        }
+        return null;
+    }
     ArrayList<String> getnames() {return this.names;}
     ArrayList<Instructor> getinstructors() {return this.instructors;}
     String get_stud_sub(int id) {return this.names.get(id);}
@@ -491,9 +512,10 @@ public class Backpack{
                             if(pending_assessments.get(id).gettype().equals("assignment")) {
                                 System.out.print("Enter filename of assignment: ");
                                 String n=Reader.nextLine();
-                                if(n.substring(n.length()-2).equals(".zip")) {
+                                if(n.substring(n.length()-4).equals(".zip")) {
                                     pending_assessments.get(id).getsub().add_submission(n, students.get(i));
                                 }
+                                else System.out.println("Invalid filename!");
                             }
                             else if(pending_assessments.get(id).gettype().equals("quiz")) {
                                 System.out.print(pending_assessments.get(id).getprob()+" ");
@@ -506,44 +528,44 @@ public class Backpack{
                         ArrayList<Assessment> graded_assessments=new ArrayList<>();
                         ArrayList<Assessment> ungraded_assessments=new ArrayList<>();
                         for(Assignment y: Assignment.getassignments()) {
-                            int t=0;
+                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
-                                if(students.get(i)==l && y.getsub().getgrade().get(t)!=-1) graded_assessments.add(y);
-                                else if(students.get(i)==l && y.getsub().getgrade().get(t)==-1) ungraded_assessments.add(y);
-                                t++;
+                                if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) graded_assessments.add(y);
+                                else if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) ungraded_assessments.add(y);
+                                //t++;
                             }
                         }
                         for(Quiz y: Quiz.getquizzes()) {
-                            int t=0;
+                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
-                                if(students.get(i)==l && y.getsub().getgrade().get(t)!=-1) graded_assessments.add(y);
-                                else if(students.get(i)==l && y.getsub().getgrade().get(t)==-1) ungraded_assessments.add(y);
-                                t++;
+                                if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) graded_assessments.add(y);
+                                else if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) ungraded_assessments.add(y);
+                                //t++;
                             }
                         }
                         System.out.println("Graded Submissions:");
                         for(Assessment y: graded_assessments) {
-                            int t=0;
+                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
-                                if(students.get(i)==l && y.getsub().getgrade().get(t)!=-1) {
-                                    System.out.println("Submission: "+y.getsub().getnames().get(t));
-                                    System.out.println("Marks Scored: "+y.getsub().getgrade().get(t));
-                                    System.out.println("Graded by: "+y.getsub().getinstructors().get(t).getname());
+                                if(students.get(i)==l && y.getsub().graded(students.get(i))!=-1) {
+                                    System.out.println("Submission: "+y.getsub().name(students.get(i)));
+                                    System.out.println("Marks Scored: "+y.getsub().graded(students.get(i)));
+                                    System.out.println("Graded by: "+y.getsub().ins_name(students.get(i)));
                                     System.out.println();
                                 }
-                                t++;
+                                //t++;
                             }
                         }
                         System.out.println("--------------------------");
                         System.out.println("Ungraded Submissions:");
                         for(Assessment y: ungraded_assessments) {
-                            int t=0;
+                            //int t=0;
                             for(Student l: y.getsub().getstudents()) {
-                                if(students.get(i)==l && y.getsub().getgrade().get(t)==-1) {
-                                    System.out.println("Submission: "+y.getsub().getnames().get(t));
+                                if(students.get(i)==l && y.getsub().graded(students.get(i))==-1) {
+                                    System.out.println("Submission: "+y.getsub().name(students.get(i)));
                                     System.out.println();
                                 }
-                                t++;
+                                //t++;
                             }
                         }
                     }
