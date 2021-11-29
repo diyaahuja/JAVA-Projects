@@ -152,43 +152,58 @@ public class Game {
                 }
                 else {
                     Random r=new Random();
-                    System.out.println("Question answer round. Integer or strings?");
-                    String choice=Reader.nextLine();
-                    if(choice.equals("integer")) {
-                        int a=r.nextInt(2000)+1;
-                        int b=r.nextInt(2000)+1;
-                        System.out.println("Calculate the result of "+a+" divided by "+b);
-                        int ans=Reader.nextInt();
-                        if(cal2.check(a,b,ans)==true) {
-                            System.out.println("Correct Answer!");
-                            System.out.println("You won a "+C.gettoy(hop-1)+" soft toy");
-                            P.getbucket().addtoy(C.gettiles().get(hop-1).getclone());
+                    while(true) {
+                        System.out.println("Question answer round. integer or string?");
+                        String choice=Reader.nextLine();
+                        if(choice.equals("integer")) {
+                            int a=r.nextInt(2000)+1;
+                            int b=r.nextInt(2000)+1;
+                            while(true) {
+                                try {
+                                    System.out.println("Calculate the result of "+a+" divided by "+b);
+                                    int ans=Reader.nextInt();
+                                    if(cal2.check(a,b,ans)==true) {
+                                        System.out.println("Correct Answer!");
+                                        System.out.println("You won a "+C.gettoy(hop-1)+" soft toy");
+                                        P.getbucket().addtoy(C.gettiles().get(hop-1).getclone());
+                                    }
+                                    else {
+                                        System.out.println("Incorrect Answer!");
+                                        System.out.println("You did not win any soft toy!");
+                                    }
+                                    break;
+                                }
+                                catch (NumberFormatException e){
+                                    System.out.println("Invalid! Answer can only be an integer! Try again!");
+                                }
+                            }
+                            break;
+                        }
+                        else if(choice.equals("string")) {
+                            StringBuilder a=new StringBuilder();
+                            StringBuilder b=new StringBuilder();
+                            String alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            for(int i=0;i<4;i++) {
+                                int ind1=r.nextInt(alphabet.length());
+                                int ind2=r.nextInt(alphabet.length());
+                                a.append(alphabet.charAt(ind1));
+                                b.append(alphabet.charAt(ind2));
+                            }
+                            System.out.println("Calculate the concatenation of the strings "+a+" and "+b);
+                            String ans=Reader.nextLine();
+                            if(cal1.check(a.toString(),b.toString(),ans)==true) {
+                                System.out.println("Correct Answer!");
+                                System.out.println("You won a "+C.gettoy(hop-1)+" soft toy");
+                                P.getbucket().addtoy(C.gettiles().get(hop-1).getclone());
+                            }
+                            else {
+                                System.out.println("Incorrect Answer!");
+                                System.out.println("You did not win any soft toy!");
+                            }
+                            break;
                         }
                         else {
-                            System.out.println("Incorrect Answer!");
-                            System.out.println("You did not win any soft toy!");
-                        }
-                    }
-                    else if(choice.equals("string")) {
-                        StringBuilder a=new StringBuilder();
-                        StringBuilder b=new StringBuilder();
-                        String alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                        for(int i=0;i<4;i++) {
-                            int ind1=r.nextInt(alphabet.length());
-                            int ind2=r.nextInt(alphabet.length());
-                            a.append(alphabet.charAt(ind1));
-                            b.append(alphabet.charAt(ind2));
-                        }
-                        System.out.println("Calculate the concatenation of the strings "+a+" and "+b);
-                        String ans=Reader.nextLine();
-                        if(cal1.check(a.toString(),b.toString(),ans)==true) {
-                            System.out.println("Correct Answer!");
-                            System.out.println("You won a "+C.gettoy(hop-1)+" soft toy");
-                            P.getbucket().addtoy(C.gettiles().get(hop-1).getclone());
-                        }
-                        else {
-                            System.out.println("Incorrect Answer!");
-                            System.out.println("You did not win any soft toy!");
+                            System.out.println("Invalid option! Try again!");
                         }
                     }
                 }
