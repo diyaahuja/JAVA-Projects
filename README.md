@@ -1,3 +1,3 @@
 # JAVA-Projects
 
-Compilation of JAVA-Projects done as part of the course Advanced Programming (CSE-102)
+Compilation of JAVA-Projects done as part of the course Advanced Programming (CSE-201)
